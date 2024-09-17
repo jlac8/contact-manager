@@ -1,23 +1,37 @@
 import './style.css'
 
-const contacts = [];
 const ul = document.getElementById('contactList');
 
 function addContact(event) {
   event.preventDefault();
+
   const {elements} = event.currentTarget;
   const input = elements.namedItem("value");
-  contacts.push(input.value);
+  const contact = {
+    text: input.value,
+    timestamp: Date.now(),
+    id: crypto.randomUUID(),
+  }
+
   const li = document.createElement('li');
-  li.innerText = input.value;
-  ul.appendChild(li)
-  const btnEdit = document.createElement('button');
-  btnEdit.textContent = "Edit"
-  const btnDelete = document.createElement('button')
-  btnDelete.textContent = "Delete"
-  li.appendChild(btnEdit);
-  li.appendChild(btnDelete);
+  li.innerText = contact.text;
+  li.id = contact.id;
   input.value = ""
+  ul.appendChild(li)
+
+  const btnEdit = document.createElement('button');
+  btnEdit.textContent = "Editar";
+  li.appendChild(btnEdit);
+
+  const btnDelete = document.createElement('button');
+  btnDelete.textContent = "Eliminar";
+  btnDelete.onclick = () => deleteContact(contact.id);
+  li.appendChild(btnDelete);
 }
 
-document.getElementById('contact-form').addEventListener("submit", addContact);
+function deleteContact(id) {
+  const li = document.getElementById(id);
+  ul.removeChild(li);
+}
+
+document.getElementById('contactForm').addEventListener("submit", addContact);
