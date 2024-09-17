@@ -10,9 +10,14 @@ function addContact(event) {
   const {elements} = event.currentTarget;
   const input = elements.namedItem('value');
   const contact = {
-    text: input.value,
+    text: input.value.trim(),
     timestamp: Date.now(),
     id: crypto.randomUUID(),
+  }
+
+  if(!contact.text) {
+    alert('Debe incluir el nombre de un contacto');
+    return;
   }
 
   const li = document.createElement('li');
