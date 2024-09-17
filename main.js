@@ -92,13 +92,14 @@ function saveContact(event, id, text) {
   const form = li.querySelector('form');
   const span = document.createElement('span');
 
-  span.innerText = text;
   for (let i = 0; i < contacts.length; i++) {
     if (text === contacts[i].text) {
       alert(`El nombre ${text} ya se encuentra en la lista`);
       return
     }
   }
+
+  span.innerText = text;
   li.replaceChild(span, form)
 
   const btnEdit = li.querySelector('button');
