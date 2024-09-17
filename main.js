@@ -1,8 +1,18 @@
 import './style.css'
 
+let contacts = [];
+
 const ul = document.getElementById('contactList');
 const form = document.getElementById('contactForm')
 form.addEventListener('submit', addContact);
+
+function nameFormat(name) {
+  return name.trim()
+  .toLowerCase()
+  .split(' ')
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+  .join(' ')
+}
 
 function addContact(event) {
   event.preventDefault();
@@ -10,15 +20,19 @@ function addContact(event) {
   const {elements} = event.currentTarget;
   const input = elements.namedItem('value');
   const contact = {
-    text: input.value.trim(),
+    text: nameFormat(input.value),
     timestamp: Date.now(),
     id: crypto.randomUUID(),
   }
 
-  if(!contact.text) {
-    alert('Debe incluir el nombre de un contacto');
-    return;
+  for (let i = 0; i < contacts.length; i++) {
+    if (contact.text === contacts[i].text) {
+      alert(`El nombre ${contact.text} ya se encuentra en la lista`);
+      return
+    }
   }
+
+  contacts.push(contact)
 
   const li = document.createElement('li');
   li.id = contact.id;
@@ -41,18 +55,21 @@ function addContact(event) {
 }
 
 function editContact(id) {
+  contacts = contacts.filter(contact => contact.id !== id);
+
   const li = document.getElementById(id);
   const span = li.querySelector('span');
   const btnEdit = li.querySelector('button');
 
   const form = document.createElement('form');
-  form.addEventListener('submit', (event) => saveContact(event, id, input.value));
+  form.addEventListener('submit', (event) => saveContact(event, id, nameFormat(input.value)));
 
   const label = document.createElement('label')
 
   const input = document.createElement('input');
   input.type = 'text';
   input.value = span.innerText;
+  input.required = true;
 
   const btnSave = document.createElement('button');
   btnSave.type = 'submit';
@@ -76,6 +93,12 @@ function saveContact(event, id, text) {
   const span = document.createElement('span');
 
   span.innerText = text;
+  for (let i = 0; i < contacts.length; i++) {
+    if (text === contacts[i].text) {
+      alert(`El nombre ${text} ya se encuentra en la lista`);
+      return
+    }
+  }
   li.replaceChild(span, form)
 
   const btnEdit = li.querySelector('button');
@@ -83,6 +106,8 @@ function saveContact(event, id, text) {
 }
 
 function deleteContact(id) {
+  contacts = contacts.filter(contact => contact.id !== id);
+
   const li = document.getElementById(id);
   ul.removeChild(li);
 }
