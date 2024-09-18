@@ -6,14 +6,7 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
-
-
 
 body {
   margin: 0;
@@ -28,6 +21,18 @@ h1 {
   line-height: 1.1;
 }
 
+#contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+li {
+  display: flex;
+  align-items: center;
+}
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
@@ -38,35 +43,21 @@ h1 {
   gap: 100px;
 }
 
-#contactName {
-  width: 200px;
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.6em;
   font-size: 1em;
-  font-weight: 500;
   font-family: inherit;
+  font-weight: 500;
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin-left: 10px;
 }
+
 button:hover {
   border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {
